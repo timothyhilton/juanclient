@@ -1,0 +1,14 @@
+package juan;
+
+import org.lwjgl.opengl.Display;
+
+public class Client {
+
+	public static String name = "juan client", version = "b1";
+	
+	public static void startup() {
+		System.out.println("Starting " + name + " " + version);
+		Display.setTitle(name + " " + version);
+	}
+	
+}

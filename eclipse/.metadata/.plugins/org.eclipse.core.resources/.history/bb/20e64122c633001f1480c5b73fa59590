@@ -1,0 +1,62 @@
+package juan.modules.render;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import juan.events.Event;
+import juan.events.listeners.EventRenderGUI;
+import juan.events.listeners.EventSwing;
+import juan.events.listeners.EventUpdate;
+import juan.modules.Module;
+import net.minecraft.client.gui.Gui;
+
+public class CPSCount extends Module {
+	
+	private int clicks = 0;
+	private long lastClickTime = 0;
+	private int cps = 0;
+
+	public CPSCount() {
+		super("CPSCount", Keyboard.KEY_NONE, Category.RENDER);
+	}
+	
+	public void onEnable() {
+		mc.gameSettings.gammaSetting = 100;
+	}
+	
+	public void onDisable(){
+		mc.gameSettings.gammaSetting = 1;
+		reset();
+	}
+	
+	public void onEvent(Event e) {
+		if(e instanceof EventUpdate) {
+			if (e.isPre()) {
+				// Calculate CPS
+				long currentTime = System.currentTimeMillis();
+				if (currentTime - lastClickTime > 1000) { // 1000 milliseconds = 1 second
+					cps = clicks;
+					clicks = 0;
+					lastClickTime = currentTime;
+					System.out.println("CPS: " + cps); // Print CPS to console (you can modify this part to display CPS in-game)
+				}
+			}
+		}
+		
+		if(e instanceof EventSwing) {
+			clicks++;
+		}
+		
+		if(e instanceof EventRenderGUI) {
+			if(toggled) {
+				Gui.drawRect(1, 80, 53, 100, 0x90000000);
+			}
+		}
+	}
+	
+	private void reset() {
+		clicks = 0;
+		lastClickTime = 0;
+		cps = 0;
+	}
+}

@@ -1,0 +1,48 @@
+package juan.modules.render;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import juan.events.Event;
+import juan.events.listeners.EventRenderGUI;
+import juan.events.listeners.EventSwing;
+import juan.events.listeners.EventUpdate;
+import juan.modules.Module;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+
+public class CPSCount extends Module {
+	
+	private List<Long> clicks = new ArrayList<Long>();
+	private int cps = 0;
+	private FontRenderer fr = mc.fontRendererObj;
+
+	public CPSCount() {
+		super("CPSCount", Keyboard.KEY_NONE, Category.RENDER);
+	}
+	
+	public void onEvent(Event e) {
+		if(e instanceof EventUpdate) {
+			if (e.isPre()) {
+				long currentTime = System.currentTimeMillis();
+				
+				clicks.forEach(click -> {
+					if(click < currentTime - 1000)
+						clicks.remove(click);
+				});
+			}
+		}
+		
+		if(e instanceof EventSwing) {
+			clicks.add(System.currentTimeMillis())
+		}
+		
+		if(e instanceof EventRenderGUI && toggled) {
+			Gui.drawRect(1, 75, 53, 75 + 6 + fr.FONT_HEIGHT, 0x90000000);
+			fr.drawStringWithShadow("CPS: " + String.valueOf(cps), 4, 4, -1);
+		}
+	}
+}
