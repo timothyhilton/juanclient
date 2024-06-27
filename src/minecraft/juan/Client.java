@@ -18,10 +18,10 @@ import juan.ui.HUD;
 
 public class Client {
 
-	public static String name = "juan client", version = "b2.1.5";
+	public static String name = "juan client", version = "b2.1.6";
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
-	
+
 	public static void startup() {
 		System.out.println("Starting " + name + " " + version);
 		Display.setTitle(name + " " + version);
@@ -37,6 +37,8 @@ public class Client {
 		modules.add(new CPSCounter());
 		modules.add(new LegitMode());
 		modules.add(new BedwarsItemCounter());
+		modules.add(new FPSCounter());
+		modules.add(new OldSwing());
 	}
 	
 	public static void onEvent(Event e) {
