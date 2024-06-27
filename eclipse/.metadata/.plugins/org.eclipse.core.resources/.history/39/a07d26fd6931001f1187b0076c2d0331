@@ -1,0 +1,16 @@
+package juan.ui;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+
+public class HUD {
+	
+	public Minecraft mc = Minecraft.getMinecraft();
+	
+	public void draw() {
+		ScaledResolution sr = new ScaledResolution(mc);
+		
+		mc.fontRendererObj.drawString("hello", 0, 0, -1);
+	}
+	
+}

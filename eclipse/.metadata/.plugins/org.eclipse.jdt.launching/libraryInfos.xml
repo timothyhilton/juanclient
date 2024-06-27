@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+    <libraryInfo home="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot" version="1.8.0_345">
+        <bootpath>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\resources.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\rt.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\sunrsasign.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\jsse.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\jce.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\charsets.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\jfr.jar"/>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\classes"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\ext"/>
+            <entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="C:\Program Files\Eclipse Adoptium\jre-8.0.345.1-hotspot\lib\endorsed"/>
+        </endorsedDirs>
+    </libraryInfo>
+    <libraryInfo home="C:\Users\tim\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.1.v20240426-1149\jre" version="22.0.1"/>
+</libraryInfos>
