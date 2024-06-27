@@ -10,7 +10,6 @@
 /jars/logs/*
 /jars/resourcepacks/*
 /jars/saves/*
-/jars/versions/*
 /jars/options.txt
 /jars/optionsof.txt
 /jars/server.dat
