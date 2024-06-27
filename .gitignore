@@ -5,7 +5,6 @@
 /conf/*
 /.metadata/*
 
-/jars/assets/*
 /jars/crash-reports/*
 /jars/logs/*
 /jars/resourcepacks/*
