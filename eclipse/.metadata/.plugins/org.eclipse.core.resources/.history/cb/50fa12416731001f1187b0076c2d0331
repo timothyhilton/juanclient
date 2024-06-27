@@ -1,0 +1,5 @@
+package juan.events.listeners;
+
+public class EventUpdate {
+
+}
