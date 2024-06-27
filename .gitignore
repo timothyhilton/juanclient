@@ -16,3 +16,5 @@
 /jars/server.dat
 /jars/server.properties
 /jars/usercache.json
+
+/export/*
