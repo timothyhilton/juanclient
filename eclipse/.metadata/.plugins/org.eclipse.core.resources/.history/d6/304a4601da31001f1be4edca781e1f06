@@ -1,0 +1,34 @@
+package juan.ui;
+
+import juan.Client;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+
+public class MainMenu extends GuiScreen {
+	
+	public MainMenu() {
+		
+	}
+	
+	public void initGui() {
+		
+	}
+	
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		mc.getTextureManager().bindTexture(new ResourceLocation("juan/juancover.jpg"));
+		this.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, this.width, this.height, this.width, this.height);
+		
+		this.drawGradientRect(0, height - 100, width, height, 0x00000000, 0xff000000);
+		
+		this.drawCenteredString(mc.fontRendererObj, Client.name, width/2f, height/2f, -1);
+	}
+	
+	public void mouseClicked(int mouseX, int mouseY, int button) {
+		
+	}
+	
+	public void onGuiClosed() {
+		
+	}
+	
+}

@@ -1,0 +1,47 @@
+package juan;
+
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.lwjgl.opengl.Display;
+
+import juan.events.Event;
+import juan.modules.Module;
+import juan.modules.combat.KillAura;
+import juan.modules.movement.BlocksMCFireball;
+import juan.modules.movement.Fly;
+import juan.modules.movement.Sprint;
+import juan.ui.HUD;
+
+public class Client {
+
+	public static String name = "juan client", version = "v1";
+	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
+	public static HUD hud = new HUD();
+	
+	public static void startup() {
+		System.out.println("Starting " + name + " " + version);
+		Display.setTitle(name + " " + version);
+		
+		modules.add(new Fly());
+		modules.add(new Sprint());
+		modules.add(new BlocksMCFireball());
+		modules.add(new KillAura());
+	}
+	
+	public static void onEvent(Event e) {
+		for(Module m : modules) {
+			if(!m.toggled)
+				continue;
+			m.onEvent(e);
+		}
+	}
+	
+	public static void keyPress(int key) {
+		for(Module m : modules) {
+			if(m.getKey() == key) {
+				m.toggle();
+			}
+		}
+	}
+	
+}

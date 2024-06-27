@@ -1,0 +1,34 @@
+package juan.ui;
+
+import juan.Client;
+import juan.modules.Module;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+
+public class HUD {
+	
+	public Minecraft mc = Minecraft.getMinecraft();
+	
+	public void draw() {
+		ScaledResolution sr = new ScaledResolution(mc);
+		
+		GlStateManager.translate(4, 4, 0);
+		GlStateManager.scale(2, 2, 1);
+		GlStateManager.translate(-4, -4, 0);
+		mc.fontRendererObj.drawString(Client.name + " " + Client.version, 4, 4, -1);
+		GlStateManager.translate(4, 4, 0);
+		GlStateManager.scale(0.5, 0.5, 1);
+		GlStateManager.translate(-4, -4, 0);
+		
+		for(Module m : Client.modules) {
+			if(!m.toggled)
+				continue;
+			
+			Gui.drawRect(sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.name) - 4, 4, sr.getScaledWidth(), 4 + mc.fontRendererObj.FONT_HEIGHT, 0x90000000);
+			mc.fontRendererObj.drawString(m.name, sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.name) - 4, 4, -1);
+		}
+	}
+	
+}

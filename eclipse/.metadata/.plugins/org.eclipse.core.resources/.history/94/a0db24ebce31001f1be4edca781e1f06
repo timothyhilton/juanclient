@@ -1,0 +1,29 @@
+package juan.modules.player;
+
+import org.lwjgl.input.Keyboard;
+
+import juan.events.Event;
+import juan.events.listeners.EventUpdate;
+import juan.modules.Module;
+
+public class NoFall extends Module {
+	
+	public NoFall() {
+		super("NoFall", Keyboard.KEY_N, Category.PLAYER);
+	}
+	
+	public void onEnable() {
+		
+	}
+	
+	public void onDisable(){
+		mc.thePlayer.setSprinting(mc.gameSettings.keyBindSprint.isPressed());
+	}
+	
+	public void onEvent(Event e) {
+		if (e instanceof EventUpdate && e.isPre()) {
+			
+		}
+	}
+	
+}

@@ -1,0 +1,11 @@
+package juan;
+
+public class Client {
+
+	public static String name = "tutorial", version = "1";
+	
+	public static void startup() {
+		
+	}
+	
+}
