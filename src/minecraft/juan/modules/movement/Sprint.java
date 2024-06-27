@@ -23,7 +23,7 @@ public class Sprint extends Module {
 	public void onEvent(Event e) {
 		if (e instanceof EventUpdate) {
 			if(e.isPre()) {
-				if(mc.thePlayer.moveForward > 0 && !mc.thePlayer.isUsingItem() && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally) {
+				if(mc.thePlayer.moveForward > 0 && !mc.thePlayer.isUsingItem() && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.getFoodStats().getFoodLevel() > 6) {
 					mc.thePlayer.setSprinting(true);
 				}
 			}
