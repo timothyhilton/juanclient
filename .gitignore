@@ -17,3 +17,5 @@
 /jars/usercache.json
 
 /export/*
+
+/eclipse/.metadata/*
