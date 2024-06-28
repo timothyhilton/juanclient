@@ -322,10 +322,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.sendQueue.addToSendQueue(new C0APacketAnimation());
     }
     
-    public void playerSwingItem() {
+    public void playerSwingItem() { // juan
     	Client.onEvent(new EventSwing());
     	super.swingItem();
         this.sendQueue.addToSendQueue(new C0APacketAnimation());
+    }
+    
+    public void clientSideSwing() { // juan
+    	super.clientSideSwingItem();
     }
 
     public void respawnPlayer()

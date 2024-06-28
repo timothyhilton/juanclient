@@ -26,6 +26,9 @@ public class Client {
 		System.out.println("Starting " + name + " " + version);
 		Display.setTitle(name + " " + version);
 		
+		modules.add(new FPSCounter());
+		modules.add(new OldSwing());
+		
 		modules.add(new Fly());
 		modules.add(new Sprint());
 		modules.add(new BlocksMCFireball());
@@ -37,8 +40,6 @@ public class Client {
 		modules.add(new CPSCounter());
 		modules.add(new LegitMode());
 		modules.add(new BedwarsItemCounter());
-		modules.add(new FPSCounter());
-		modules.add(new OldSwing());
 	}
 	
 	public static void onEvent(Event e) {
@@ -68,6 +69,14 @@ public class Client {
 		}
 		
 		return modules;
+	}
+	
+	public static Module getModuleByName(String name) {
+		for(Module m : modules) {
+			if(m.name == name)
+				return m;
+		}
+		return null;
 	}
 	
 }

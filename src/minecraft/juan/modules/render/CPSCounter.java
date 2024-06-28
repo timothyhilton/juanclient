@@ -44,11 +44,8 @@ public class CPSCounter extends Module {
 		if(e instanceof EventRenderGUI) {
 			int FPSCounterOffset = 0;
 			
-			for(Module m : Client.modules) {
-				if(m.name == "FPSCounter" && m.toggled) {
-					FPSCounterOffset = fr.FONT_HEIGHT + 7;
-					continue;
-				}
+			if(Client.getModuleByName("FPSCounter").toggled) {
+				FPSCounterOffset = fr.FONT_HEIGHT + 7;
 			}
 			
 			text = "CPS: " + String.valueOf(clicks.size());

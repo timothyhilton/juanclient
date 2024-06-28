@@ -27,6 +27,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 
+import juan.Client;
+
 public class ItemRenderer
 {
     private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
@@ -334,22 +336,46 @@ public class ItemRenderer
             else if (abstractclientplayer.getItemInUseCount() > 0)
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
-
+                
+                boolean blockHitting = abstractclientplayer.isBlocking() && abstractclientplayer.isSwingInProgress; // juan
                 switch (enumaction)
                 {
+                	
                     case NONE:
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
 
                     case EAT:
+//                    	// juan
+//                        if (blockHitting && Client.getModuleByName("OldSwing").toggled) {
+//                            // juan block hitting
+//                            float swingProgress = abstractclientplayer.getSwingProgress(partialTicks);
+//                            this.transformFirstPersonItem(f, swingProgress);
+//                            this.func_178103_d();
+//                            
+//                            GlStateManager.rotate(-18.0F, 0.0F, 0.0F, 1.0F);
+//                        } else {
+//                        	
+//                        }
                     case DRINK:
                         this.func_178104_a(abstractclientplayer, partialTicks);
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
 
                     case BLOCK:
-                        this.transformFirstPersonItem(f, 0.0F);
-                        this.func_178103_d();
+                    	// juan
+                        if (blockHitting && Client.getModuleByName("OldSwing").toggled) {
+                            // juan block hitting
+                            float swingProgress = abstractclientplayer.getSwingProgress(partialTicks);
+                            this.transformFirstPersonItem(f, swingProgress);
+                            this.func_178103_d();
+                            
+                            GlStateManager.rotate(-18.0F, 0.0F, 0.0F, 1.0F);
+                        } else {
+                            // original code
+                            this.transformFirstPersonItem(f, 0.0F);
+                            this.func_178103_d();
+                        }
                         break;
 
                     case BOW:

@@ -1488,7 +1488,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         {
             if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
-                BlockPos blockpos = this.objectMouseOver.getBlockPos();
+            	BlockPos blockpos = this.objectMouseOver.getBlockPos();
 
                 if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit))
                 {
@@ -1500,11 +1500,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 this.playerController.resetBlockRemoving();
             }
-        }
+        } 
     }
 
     private void clickMouse()
     {
+//    	System.out.println("clickmouse called");
         if (this.leftClickCounter <= 0)
         {
             this.thePlayer.playerSwingItem();
@@ -2110,10 +2111,16 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 {
                     this.playerController.onStoppedUsingItem(this.thePlayer);
                 }
-
-                while (this.gameSettings.keyBindAttack.isPressed())
-                {
-                    ;
+                
+                while (this.gameSettings.keyBindAttack.isPressed()) {
+                	// juan client block hitting
+                	MovingObjectPosition movingObjectPosition = this.thePlayer.rayTrace(4.5D, 1.0F);
+                	if (movingObjectPosition != null && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+                	{
+                		System.out.println("block hitting?");
+                		this.thePlayer.clientSideSwing();
+//                    this.clickMouse();
+                	}
                 }
 
                 while (this.gameSettings.keyBindUseItem.isPressed())
