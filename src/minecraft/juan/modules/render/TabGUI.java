@@ -12,7 +12,7 @@ import juan.events.listeners.EventKey;
 import juan.events.listeners.EventRenderGUI;
 import juan.events.listeners.EventUpdate;
 import juan.modules.Module;
-import juan.settings.Setting;
+import juan.settings.*;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
@@ -30,12 +30,16 @@ public class TabGUI extends Module {
 		if(e instanceof EventRenderGUI) {
 			FontRenderer fr = mc.fontRendererObj;
 			
+			int 
+				primaryColour = 0x90000000,
+				secondaryColour = 0x90339966;
+			
 			// main box
-			Gui.drawRect(1, 20, 53, 74, 0x90000000);
+			Gui.drawRect(1, 20, 53, 74, primaryColour);
 			
 			// selected category box
 			float tabOffset = currentTab * 13;
-			Gui.drawRect(2, 21 + tabOffset, 52, 34 + tabOffset, 0x90000000);
+			Gui.drawRect(2, 21 + tabOffset, 52, 34 + tabOffset, secondaryColour);
 			
 			// category text
 			int count = 0;
@@ -57,11 +61,11 @@ public class TabGUI extends Module {
 						
 						moduleBoxRight = 61 + fr.getStringWidth(m.name);
 						// main module box
-						Gui.drawRect(54, 20, moduleBoxRight, 21 + 13 * modules.size() + 1, 0x90000000);
+						Gui.drawRect(54, 20, moduleBoxRight, 21 + 13 * modules.size() + 1, primaryColour);
 						
 						// selected module box
 						float moduleOffset = category.moduleIndex * 13;
-						Gui.drawRect(55, 21 + moduleOffset, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, 0x90000000);
+						Gui.drawRect(55, 21 + moduleOffset, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, secondaryColour);
 					}
 					
 					// module text
@@ -72,24 +76,49 @@ public class TabGUI extends Module {
 					if(count == category.moduleIndex && m.expanded) {
 						
 						double boxWidth = 0;
-						
 					    for(Setting setting : m.settings) {
-					        double width = mc.fontRendererObj.getStringWidth(setting.name);
-					        if (width > boxWidth) {
-					            boxWidth = width;
-					        }
+					    	// setting text
+					    	if(setting instanceof BooleanSetting) {
+					    		double length = fr.getStringWidth(setting.name + ": " + (((BooleanSetting) setting).enabled ? "enabled" : "disabled"));
+					    		
+					    		if(length > boxWidth)
+					    			boxWidth = length;
+					    	}
+					    	if(setting instanceof NumberSetting) {
+					    		double length = fr.getStringWidth(setting.name + ": " + ((NumberSetting) setting).getValue());
+					    		
+					    		if(length > boxWidth)
+					    			boxWidth = length;
+					    	}
+					    	if(setting instanceof ModeSetting) {
+					    		double length = fr.getStringWidth(setting.name + ": " + ((ModeSetting) setting).getMode());
+					    		
+					    		if(length > boxWidth)
+					    			boxWidth = length;
+					    	}
 					    }
 					    
 					    // main setting box
-					    Gui.drawRect(moduleBoxRight + 1, 20, moduleBoxRight + 1 + boxWidth + 5, 21 + 13 * m.settings.size() + 1, 0x90000000);
+					    Gui.drawRect(moduleBoxRight + 1, 20, moduleBoxRight + 1 + boxWidth + 8, 21 + 13 * m.settings.size() + 1, primaryColour);
 						
 					    // selected setting box
-					    Gui.drawRect(moduleBoxRight + 2, 21, moduleBoxRight + 1 + boxWidth + 4, 21 + 13, 0x90000000);
-					    
+					    Gui.drawRect(moduleBoxRight + 2, 21 + 13 * m.settingIndex, moduleBoxRight + 1 + boxWidth + 7, 21 + 13 + 13 * m.settingIndex, secondaryColour);
+					    System.out.println(m.settingIndex);
 					    int i = 0;
 					    for(Setting setting : m.settings) {
 					    	// setting text
-					    	fr.drawStringWithShadow(setting.name, moduleBoxRight + 4, 24 + i * 13, -1);
+					    	if(setting instanceof BooleanSetting) {
+					    		BooleanSetting bool = (BooleanSetting) setting;
+					    		fr.drawStringWithShadow(setting.name + ": " + (bool.enabled ? "enabled" : "disabled"), moduleBoxRight + 5, 24 + i * 13, -1);
+					    	}
+					    	if(setting instanceof NumberSetting) {
+					    		NumberSetting number = (NumberSetting) setting;
+					    		fr.drawStringWithShadow(setting.name + ": " + number.getValue(), moduleBoxRight + 5, 24 + i * 13, -1);
+					    	}
+					    	if(setting instanceof ModeSetting) {
+					    		ModeSetting mode = (ModeSetting) setting;
+					    		fr.drawStringWithShadow(setting.name + ": " + mode.getMode(), moduleBoxRight + 5, 24 + i * 13, -1);
+					    	}
 					    	
 					    	i++;
 					    }
@@ -162,8 +191,14 @@ public class TabGUI extends Module {
 			if(code == Keyboard.KEY_RIGHT) {
 				if(expanded) {
 					Module module = modules.get(category.moduleIndex);
-					if(!(module.name == "TabGUI"))
-						module.toggle();
+					
+					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+						
+					} else {
+						if(!(module.name == "TabGUI"))
+							module.toggle();
+					}
+					
 				} else {
 					expanded = true;
 				}

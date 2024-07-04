@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import juan.events.Event;
 import juan.events.listeners.EventMotion;
 import juan.modules.Module;
+import juan.settings.BooleanSetting;
 import juan.settings.NumberSetting;
 import juan.util.Timer;
 import net.minecraft.entity.Entity;
@@ -29,6 +30,8 @@ public class KillAura extends Module {
     	minCPS = new NumberSetting("minCPS", 9, 5, 15, 1),
     	maxCPS = new NumberSetting("maxCPS", 13, 5, 15, 1);
     
+    public BooleanSetting noSwing = new BooleanSetting("No Swing", false);
+    
     private int 
     	yawFuzzinessRange = 3,
     	pitchFuzzinessRange = 5;
@@ -37,7 +40,7 @@ public class KillAura extends Module {
     
     public KillAura() {
         super("KillAura", Keyboard.KEY_R, Category.COMBAT, false);
-        this.addSettings(minCPS, maxCPS);
+        this.addSettings(minCPS, maxCPS, noSwing);
     }
     
     public void onEnable() {
