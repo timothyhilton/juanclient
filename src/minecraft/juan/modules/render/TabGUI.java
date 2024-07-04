@@ -62,6 +62,8 @@ public class TabGUI extends Module {
 					int offset = count * 13;
 					fr.drawStringWithShadow(m.name, 4 + 54, 24 + offset, -1);
 					
+					
+					
 					count++;
 				}
 				

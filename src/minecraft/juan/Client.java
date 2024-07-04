@@ -18,7 +18,7 @@ import juan.ui.HUD;
 
 public class Client {
 
-	public static String name = "juan client", version = "b2.1.6";
+	public static String name = "juan client", version = "b2.1.7";
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
 

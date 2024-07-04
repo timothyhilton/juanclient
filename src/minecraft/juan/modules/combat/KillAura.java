@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import juan.events.Event;
 import juan.events.listeners.EventMotion;
 import juan.modules.Module;
+import juan.settings.NumberSetting;
 import juan.util.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,16 +25,19 @@ public class KillAura extends Module {
     public Timer timer = new Timer();
     private Random random = new Random();
     
-    private int minCPS = 9,
-    			maxCPS = 13;
+    public NumberSetting 
+    	minCPS = new NumberSetting("minCPS", 9, 5, 15, 1),
+    	maxCPS = new NumberSetting("maxCPS", 13, 5, 15, 1);
     
-    private int yawFuzzinessRange = 3,
-    			pitchFuzzinessRange = 5;
+    private int 
+    	yawFuzzinessRange = 3,
+    	pitchFuzzinessRange = 5;
     
     private float movementSlowness = 0.5f;
     
     public KillAura() {
         super("KillAura", Keyboard.KEY_R, Category.COMBAT, false);
+        this.addSettings(minCPS, maxCPS);
     }
     
     public void onEnable() {
@@ -47,6 +51,7 @@ public class KillAura extends Module {
     public void onEvent(Event e) {
         if(e instanceof EventMotion) {
             if(e.isPre()) {
+            	movementSlowness = 0.3f;
                 
                 EventMotion event = (EventMotion)e;
                 
@@ -81,9 +86,9 @@ public class KillAura extends Module {
                     
                     mc.thePlayer.playerSwingItem();
                     
-                    if(isRaycastHit(target)) {
+//                    if(isRaycastHit(target)) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, Action.ATTACK));
-                    }
+//                    }
                 }
                 
             }
@@ -143,7 +148,7 @@ public class KillAura extends Module {
     }
     
     private int getRandomCPSDelay() {
-        int cps = random.nextInt(maxCPS - minCPS + 1) + minCPS;
+        int cps = (int) (random.nextInt((int) (maxCPS.getValue() - minCPS.getValue() + 1)) + minCPS.getValue());
         return 1000 / cps;
     }
     
