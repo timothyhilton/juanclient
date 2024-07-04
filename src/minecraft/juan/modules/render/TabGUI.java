@@ -32,7 +32,8 @@ public class TabGUI extends Module {
 			
 			int 
 				primaryColour = 0x90000000,
-				secondaryColour = 0x90339966;
+				secondaryColour = 0x90339966,
+				focusedColour = 0x9006130d;
 			
 			// main box
 			Gui.drawRect(1, 20, 53, 74, primaryColour);
@@ -102,8 +103,8 @@ public class TabGUI extends Module {
 					    Gui.drawRect(moduleBoxRight + 1, 20, moduleBoxRight + 1 + boxWidth + 8, 21 + 13 * m.settings.size() + 1, primaryColour);
 						
 					    // selected setting box
-					    Gui.drawRect(moduleBoxRight + 2, 21 + 13 * m.settingIndex, moduleBoxRight + 1 + boxWidth + 7, 21 + 13 + 13 * m.settingIndex, secondaryColour);
-					    System.out.println(m.settingIndex);
+					    Gui.drawRect(moduleBoxRight + 2, 21 + 13 * m.settingIndex, moduleBoxRight + 1 + boxWidth + 7, 21 + 13 + 13 * m.settingIndex, m.settings.get(m.settingIndex).focused ? focusedColour : secondaryColour);
+					    
 					    int i = 0;
 					    for(Setting setting : m.settings) {
 					    	// setting text
@@ -140,10 +141,23 @@ public class TabGUI extends Module {
 				if(expanded) {
 					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
 						Module module = modules.get(category.moduleIndex);
-						if(module.settingIndex <= 0) {
-							module.settingIndex = module.settings.size() - 1;
+						Setting setting = module.settings.get(module.settingIndex);
+						
+						if(setting.focused) {
+							if(setting instanceof NumberSetting) {
+								((NumberSetting) setting).increment(true);
+							} else if (setting instanceof BooleanSetting) {
+								((BooleanSetting) setting).toggle();
+							} else if (setting instanceof ModeSetting) {
+								((ModeSetting) setting).cycle(true);
+							}
+							
 						} else {
-							module.settingIndex--;
+							if(module.settingIndex <= 0) {
+								module.settingIndex = module.settings.size() - 1;
+							} else {
+								module.settingIndex--;
+							}
 						}
 					} else {
 						if(category.moduleIndex <= 0) {
@@ -167,10 +181,21 @@ public class TabGUI extends Module {
 					// if settings menu is open
 					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
 						Module module = modules.get(category.moduleIndex);
-						if(module.settingIndex >= module.settings.size() - 1) {
-							module.settingIndex = 0;
-						} else
-							module.settingIndex ++;
+						Setting setting = module.settings.get(module.settingIndex);
+						if(setting.focused) {
+							if(setting instanceof NumberSetting) {
+								((NumberSetting) setting).increment(false);
+							} else if (setting instanceof BooleanSetting) {
+								((BooleanSetting) setting).toggle();
+							} else if (setting instanceof ModeSetting) {
+								((ModeSetting) setting).cycle(false);
+							}
+						} else {
+							if(module.settingIndex >= module.settings.size() - 1) {
+								module.settingIndex = 0;
+							} else
+								module.settingIndex ++;							
+						}
 					} else {
 						if(category.moduleIndex >= modules.size() - 1) {
 							category.moduleIndex = 0;
@@ -192,7 +217,9 @@ public class TabGUI extends Module {
 				if(expanded) {
 					Module module = modules.get(category.moduleIndex);
 					
-					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+					if(expanded && !modules.isEmpty() && !module.settings.isEmpty() && modules.get(category.moduleIndex).expanded) {
+						Setting setting = module.settings.get(module.settingIndex);
+						setting.focused = !setting.focused;
 						
 					} else {
 						if(!(module.name == "TabGUI"))
@@ -215,6 +242,9 @@ public class TabGUI extends Module {
 			if(code == Keyboard.KEY_RETURN) {
 				if(expanded) {
 					Module module = modules.get(category.moduleIndex);
+					
+					if(module.settings.isEmpty())
+						return;
 					
 					module.expanded = !module.expanded;
 				}
