@@ -52,9 +52,10 @@ public class TabGUI extends Module {
 				
 				count = 0;
 				for(Module m : modules) {
+					int moduleBoxRight = 0;
 					if(count == 0) {
 						
-						int moduleBoxRight = 61 + fr.getStringWidth(m.name);
+						moduleBoxRight = 61 + fr.getStringWidth(m.name);
 						// main module box
 						Gui.drawRect(54, 20, moduleBoxRight, 21 + 13 * modules.size() + 1, 0x90000000);
 						
@@ -70,20 +71,28 @@ public class TabGUI extends Module {
 					// module settings
 					if(count == category.moduleIndex && m.expanded) {
 						
-						Optional<Setting> optSettingWithLongestName = m.settings.stream()
-							.max(Comparator.comparingDouble(setting -> mc.fontRendererObj.getStringWidth(setting.name)));
+						double boxWidth = 0;
 						
-						optSettingWithLongestName
-							.ifPresent(setting -> {
-								double boxWidth = mc.fontRendererObj.getStringWidth(setting.name);
-								
-								// module setting box
-								Gui.drawRect(54, 20, 61 + boxWidth, 21 + 13 * m.settings.size() + 1, 0x90000000);
-							});
+					    for(Setting setting : m.settings) {
+					        double width = mc.fontRendererObj.getStringWidth(setting.name);
+					        if (width > boxWidth) {
+					            boxWidth = width;
+					        }
+					    }
+					    
+					    // main setting box
+					    Gui.drawRect(moduleBoxRight + 1, 20, moduleBoxRight + 1 + boxWidth + 5, 21 + 13 * m.settings.size() + 1, 0x90000000);
 						
-						// setting text
-						float moduleOffset = category.moduleIndex * 13;
-						Gui.drawRect(55, 21 + moduleOffset, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, 0x90000000);
+					    // selected setting box
+					    Gui.drawRect(moduleBoxRight + 2, 21, moduleBoxRight + 1 + boxWidth + 4, 21 + 13, 0x90000000);
+					    
+					    int i = 0;
+					    for(Setting setting : m.settings) {
+					    	// setting text
+					    	fr.drawStringWithShadow(setting.name, moduleBoxRight + 4, 24 + i * 13, -1);
+					    	
+					    	i++;
+					    }
 					}
 					
 					count++;
@@ -100,10 +109,19 @@ public class TabGUI extends Module {
 			
 			if(code == Keyboard.KEY_UP) {
 				if(expanded) {
-					if(category.moduleIndex <= 0) {
-						category.moduleIndex = modules.size() - 1;
+					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+						Module module = modules.get(category.moduleIndex);
+						if(module.settingIndex <= 0) {
+							module.settingIndex = module.settings.size() - 1;
+						} else {
+							module.settingIndex--;
+						}
 					} else {
-						category.moduleIndex--;
+						if(category.moduleIndex <= 0) {
+							category.moduleIndex = modules.size() - 1;
+						} else {
+							category.moduleIndex--;
+						}
 					}
 				} else {
 					if(currentTab <= 0) {
@@ -116,10 +134,20 @@ public class TabGUI extends Module {
 			
 			if(code == Keyboard.KEY_DOWN) {
 				if(expanded) {
-					if(category.moduleIndex >= modules.size() - 1) {
-						category.moduleIndex = 0;
+					
+					// if settings menu is open
+					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+						Module module = modules.get(category.moduleIndex);
+						if(module.settingIndex >= module.settings.size() - 1) {
+							module.settingIndex = 0;
+						} else
+							module.settingIndex ++;
 					} else {
-						category.moduleIndex++;
+						if(category.moduleIndex >= modules.size() - 1) {
+							category.moduleIndex = 0;
+						} else {
+							category.moduleIndex++;
+						}
 					}
 				} else {
 					if(currentTab >= Module.Category.values().length - 1) {
@@ -153,8 +181,7 @@ public class TabGUI extends Module {
 				if(expanded) {
 					Module module = modules.get(category.moduleIndex);
 					
-					if(!module.expanded)
-						module.expanded = true;
+					module.expanded = !module.expanded;
 				}
 			}
 		}
