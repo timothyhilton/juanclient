@@ -28,6 +28,7 @@ import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 
 import juan.Client;
+import juan.events.listeners.EventHandleBlockHit;
 
 public class ItemRenderer
 {
@@ -263,7 +264,7 @@ public class ItemRenderer
     /**
      * Performs transformations prior to the rendering of a held item in first person.
      */
-    private void transformFirstPersonItem(float equipProgress, float swingProgress)
+    public void transformFirstPersonItem(float equipProgress, float swingProgress)
     {
         GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
@@ -303,7 +304,7 @@ public class ItemRenderer
         GlStateManager.scale(1.0F, 1.0F, 1.0F + f1 * 0.2F);
     }
 
-    private void func_178103_d()
+    public void func_178103_d()
     {
         GlStateManager.translate(-0.5F, 0.2F, 0.0F);
         GlStateManager.rotate(30.0F, 0.0F, 1.0F, 0.0F);
@@ -366,11 +367,12 @@ public class ItemRenderer
                     	// juan
                         if (blockHitting && Client.getModuleByName("OldSwing").toggled) {
                             // juan block hitting
-                            float swingProgress = abstractclientplayer.getSwingProgress(partialTicks);
-                            this.transformFirstPersonItem(f, swingProgress);
-                            this.func_178103_d();
+                        	float swingProgress = abstractclientplayer.getSwingProgress(partialTicks);
+                        	
+                        	EventHandleBlockHit e = new EventHandleBlockHit(this, abstractclientplayer, partialTicks, swingProgress, f);
+                        	Client.onEvent(e);
+                        	
                             
-                            GlStateManager.rotate(-18.0F, 0.0F, 0.0F, 1.0F);
                         } else {
                             // original code
                             this.transformFirstPersonItem(f, 0.0F);
