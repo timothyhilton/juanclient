@@ -16,6 +16,7 @@ public class Module {
 	public Category category;
 	public final boolean legit;
 	public Minecraft mc = Minecraft.getMinecraft();
+	public boolean expanded;
 	
 	public List<Setting> settings = new ArrayList<Setting>();
 	

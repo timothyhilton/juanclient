@@ -1,6 +1,8 @@
 package juan.modules.render;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.lwjgl.input.Keyboard;
 
@@ -10,6 +12,7 @@ import juan.events.listeners.EventKey;
 import juan.events.listeners.EventRenderGUI;
 import juan.events.listeners.EventUpdate;
 import juan.modules.Module;
+import juan.settings.Setting;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
@@ -50,8 +53,10 @@ public class TabGUI extends Module {
 				count = 0;
 				for(Module m : modules) {
 					if(count == 0) {
+						
+						int moduleBoxRight = 61 + fr.getStringWidth(m.name);
 						// main module box
-						Gui.drawRect(54, 20, 61 + fr.getStringWidth(m.name), 21 + 13 * modules.size() + 1, 0x90000000);
+						Gui.drawRect(54, 20, moduleBoxRight, 21 + 13 * modules.size() + 1, 0x90000000);
 						
 						// selected module box
 						float moduleOffset = category.moduleIndex * 13;
@@ -62,7 +67,24 @@ public class TabGUI extends Module {
 					int offset = count * 13;
 					fr.drawStringWithShadow(m.name, 4 + 54, 24 + offset, -1);
 					
-					
+					// module settings
+					if(count == category.moduleIndex && m.expanded) {
+						
+						Optional<Setting> optSettingWithLongestName = m.settings.stream()
+							.max(Comparator.comparingDouble(setting -> mc.fontRendererObj.getStringWidth(setting.name)));
+						
+						optSettingWithLongestName
+							.ifPresent(setting -> {
+								double boxWidth = mc.fontRendererObj.getStringWidth(setting.name);
+								
+								// module setting box
+								Gui.drawRect(54, 20, 61 + boxWidth, 21 + 13 * m.settings.size() + 1, 0x90000000);
+							});
+						
+						// setting text
+						float moduleOffset = category.moduleIndex * 13;
+						Gui.drawRect(55, 21 + moduleOffset, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, 0x90000000);
+					}
 					
 					count++;
 				}
@@ -91,6 +113,7 @@ public class TabGUI extends Module {
 					}
 				}
 			}
+			
 			if(code == Keyboard.KEY_DOWN) {
 				if(expanded) {
 					if(category.moduleIndex >= modules.size() - 1) {
@@ -107,6 +130,7 @@ public class TabGUI extends Module {
 				}
 				
 			}
+			
 			if(code == Keyboard.KEY_RIGHT) {
 				if(expanded) {
 					Module module = modules.get(category.moduleIndex);
@@ -116,8 +140,22 @@ public class TabGUI extends Module {
 					expanded = true;
 				}
 			}
+			
 			if(code == Keyboard.KEY_LEFT) {
-				expanded = false;
+				if(expanded && modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+					modules.get(category.moduleIndex).expanded = false;
+				} else {
+					expanded = false;
+				}
+			}
+			
+			if(code == Keyboard.KEY_RETURN) {
+				if(expanded) {
+					Module module = modules.get(category.moduleIndex);
+					
+					if(!module.expanded)
+						module.expanded = true;
+				}
 			}
 		}
 	}
