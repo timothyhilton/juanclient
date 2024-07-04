@@ -20,3 +20,8 @@
 /eclipse/.metadata/.plugins/
 /jars/assets/*
 /jars/screenshots
+/jars/servers.dat
+
+/eclipse/.metdata/.mylyn/*
+/eclipse/.metadata/.lock
+/eclipse/.metadata/.log
