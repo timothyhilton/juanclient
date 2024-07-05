@@ -15,6 +15,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import juan.Client;
+import juan.events.listeners.EventHitDelay;
 import juan.ui.MainMenu;
 
 import java.awt.image.BufferedImage;
@@ -246,7 +247,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EntityRenderer entityRenderer;
 
     /** Mouse left click counter */
-    private int leftClickCounter;
+    public int leftClickCounter;
 
     /** Display width */
     private int tempDisplayWidth;
@@ -1538,10 +1539,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                     case MISS:
                     default:
-                        if (this.playerController.isNotCreative())
-                        {
-                            this.leftClickCounter = 10;
-                        }
+                    	Client.onEvent(new EventHitDelay(this));
+//                    	juan
+//                        if (this.playerController.isNotCreative())
+//                        {
+//                            this.leftClickCounter = 10;
+//                        }
                 }
             }
         }

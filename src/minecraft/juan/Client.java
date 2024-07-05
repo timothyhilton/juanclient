@@ -40,6 +40,7 @@ public class Client {
 		modules.add(new CPSCounter());
 		modules.add(new LegitMode());
 		modules.add(new BedwarsItemCounter());
+		modules.add(new HitDelayFix());
 	}
 	
 	public static void onEvent(Event e) {
