@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import juan.events.Event;
+import juan.settings.BooleanSetting;
 import juan.settings.Setting;
 import net.minecraft.client.Minecraft;
 
@@ -20,7 +21,6 @@ public class Module {
 	public int settingIndex = 0;
 	
 	public List<Setting> settings = new ArrayList<Setting>();
-	
 	
 	public Module(String name, int key, Category c, boolean legit) {
 		this.name = name;
@@ -42,7 +42,6 @@ public class Module {
 	}
 	
 	public void onEvent(Event e) {
-		
 	}
 
 	public void toggle() {
