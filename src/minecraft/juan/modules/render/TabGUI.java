@@ -21,9 +21,12 @@ public class TabGUI extends Module {
 	public int currentTab;
 	public boolean expanded;
 	
+	public BooleanSetting OldNavigation = new BooleanSetting("OldNavigation", false);
+	
 	public TabGUI() {
 		super("TabGUI", Keyboard.KEY_NONE, Category.RENDER, true);
 		toggled = true;
+		this.addSettings(OldNavigation);
 	}
 	
 	public void onEvent(Event e) {
@@ -140,116 +143,205 @@ public class TabGUI extends Module {
 			List<Module> modules = Client.getModulesByCategory(category);
 			int code = ((EventKey)e).code;
 			
-			if(code == Keyboard.KEY_UP) {
-				if(expanded) {
-					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
-						Module module = modules.get(category.moduleIndex);
-						Setting setting = module.settings.get(module.settingIndex);
-						
-						if(setting.focused) {
-							if(setting instanceof NumberSetting) {
-								((NumberSetting) setting).increment(true);
-							} else if (setting instanceof BooleanSetting) {
-								((BooleanSetting) setting).toggle();
-							} else if (setting instanceof ModeSetting) {
-								((ModeSetting) setting).cycle(true);
-							}
-							
-						} else {
-							if(module.settingIndex <= 0) {
-								module.settingIndex = module.settings.size() - 1;
-							} else {
-								module.settingIndex--;
-							}
-						}
-					} else {
-						if(category.moduleIndex <= 0) {
-							category.moduleIndex = modules.size() - 1;
-						} else {
-							category.moduleIndex--;
-						}
-					}
-				} else {
-					if(currentTab <= 0) {
-						currentTab = Module.Category.values().length -1;
-					} else {
-						currentTab--;
-					}
+			if (!OldNavigation.isEnabled()) {
+				
+				if(!(code == Keyboard.KEY_DOWN || code == Keyboard.KEY_LEFT || code == Keyboard.KEY_RIGHT || code == Keyboard.KEY_UP || code == Keyboard.KEY_RETURN))
+					return;
+				
+				if(!expanded && code == Keyboard.KEY_UP && currentTab > 0) {
+					currentTab--;
+					return;
+				} else if (!expanded && currentTab >= 0 && code == Keyboard.KEY_UP) {
+					currentTab = Module.Category.values().length - 1;
+					return;
 				}
-			}
-			
-			if(code == Keyboard.KEY_DOWN) {
-				if(expanded) {
-					
-					// if settings menu is open
-					if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
-						Module module = modules.get(category.moduleIndex);
-						Setting setting = module.settings.get(module.settingIndex);
-						if(setting.focused) {
-							if(setting instanceof NumberSetting) {
-								((NumberSetting) setting).increment(false);
-							} else if (setting instanceof BooleanSetting) {
-								((BooleanSetting) setting).toggle();
-							} else if (setting instanceof ModeSetting) {
-								((ModeSetting) setting).cycle(false);
+				
+				if(!expanded && code == Keyboard.KEY_DOWN && currentTab + 1 < Module.Category.values().length) {
+					currentTab++;
+					return;
+				} else if (!expanded && currentTab == Module.Category.values().length - 1 && code == Keyboard.KEY_DOWN) {
+					currentTab = 0;
+					return;
+				}
+				
+				if(!expanded && code == Keyboard.KEY_RIGHT && !modules.isEmpty()) {
+					expanded = true;
+					return;
+				}
+				
+				if(!expanded) return;
+				
+				Module selectedModule = modules.get(category.moduleIndex);
+				
+				if(code == Keyboard.KEY_LEFT && !selectedModule.expanded && selectedModule.settings.isEmpty())
+					expanded = false;
+				else if(code == Keyboard.KEY_LEFT && !selectedModule.expanded && !selectedModule.settings.get(selectedModule.settingIndex).focused) {
+					expanded = false;
+					return;
+				}
+				
+				
+				if(code == Keyboard.KEY_DOWN && !selectedModule.expanded && !(category.moduleIndex + 1 == modules.size())) {
+					category.moduleIndex++;
+					return;
+				} else if (code == Keyboard.KEY_DOWN && !selectedModule.expanded) {
+					category.moduleIndex = 0;
+					return;
+				}
+				
+				if(code == Keyboard.KEY_UP && !selectedModule.expanded && !(category.moduleIndex == 0)) {
+					category.moduleIndex--;					
+					return;
+				} else if (code == Keyboard.KEY_UP && !selectedModule.expanded) {
+					category.moduleIndex = modules.size() - 1;
+					return;
+				}
+				
+				if(code == Keyboard.KEY_RETURN && !selectedModule.expanded) {
+					selectedModule.toggle();
+					return;
+				}
+				
+				if(selectedModule.settings.isEmpty() && code == Keyboard.KEY_LEFT && selectedModule.expanded)
+					return;
+				
+				if(selectedModule.settings.isEmpty())
+					return;
+				
+				Setting selectedSetting = selectedModule.settings.get(selectedModule.settingIndex);
+
+				if(code == Keyboard.KEY_LEFT && selectedModule.expanded && !selectedSetting.focused) {
+					selectedModule.expanded = false;
+					return;
+				}
+				System.out.println("test");
+				if(code == Keyboard.KEY_RIGHT) {
+					selectedSetting.focused = true;
+				}
+				
+				if(!selectedModule.expanded)
+					return;
+				
+				
+				if(code == Keyboard.KEY_LEFT) {
+					selectedSetting.focused = false;
+				}
+				
+				
+				if(!selectedSetting.focused) return;
+				
+			} else {
+				if(code == Keyboard.KEY_UP) {
+					if(expanded) {
+						if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+							Module module = modules.get(category.moduleIndex);
+							Setting setting = module.settings.get(module.settingIndex);
+							
+							if(setting.focused) {
+								if(setting instanceof NumberSetting) {
+									((NumberSetting) setting).increment(true);
+								} else if (setting instanceof BooleanSetting) {
+									((BooleanSetting) setting).toggle();
+								} else if (setting instanceof ModeSetting) {
+									((ModeSetting) setting).cycle(true);
+								}
+								
+							} else {
+								if(module.settingIndex <= 0) {
+									module.settingIndex = module.settings.size() - 1;
+								} else {
+									module.settingIndex--;
+								}
 							}
 						} else {
-							if(module.settingIndex >= module.settings.size() - 1) {
-								module.settingIndex = 0;
-							} else
-								module.settingIndex ++;							
+							if(category.moduleIndex <= 0) {
+								category.moduleIndex = modules.size() - 1;
+							} else {
+								category.moduleIndex--;
+							}
 						}
 					} else {
-						if(category.moduleIndex >= modules.size() - 1) {
-							category.moduleIndex = 0;
+						if(currentTab <= 0) {
+							currentTab = Module.Category.values().length -1;
 						} else {
-							category.moduleIndex++;
+							currentTab--;
 						}
-					}
-				} else {
-					if(currentTab >= Module.Category.values().length - 1) {
-						currentTab = 0;
-					} else {
-						currentTab++;
 					}
 				}
 				
-			}
-			
-			if(code == Keyboard.KEY_RIGHT) {
-				if(expanded) {
-					Module module = modules.get(category.moduleIndex);
-					
-					if(expanded && !modules.isEmpty() && !module.settings.isEmpty() && modules.get(category.moduleIndex).expanded) {
-						Setting setting = module.settings.get(module.settingIndex);
-						setting.focused = !setting.focused;
+				if(code == Keyboard.KEY_DOWN) {
+					if(expanded) {
 						
+						// if settings menu is open
+						if(expanded && !modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+							Module module = modules.get(category.moduleIndex);
+							Setting setting = module.settings.get(module.settingIndex);
+							if(setting.focused) {
+								if(setting instanceof NumberSetting) {
+									((NumberSetting) setting).increment(false);
+								} else if (setting instanceof BooleanSetting) {
+									((BooleanSetting) setting).toggle();
+								} else if (setting instanceof ModeSetting) {
+									((ModeSetting) setting).cycle(false);
+								}
+							} else {
+								if(module.settingIndex >= module.settings.size() - 1) {
+									module.settingIndex = 0;
+								} else
+									module.settingIndex ++;							
+							}
+						} else {
+							if(category.moduleIndex >= modules.size() - 1) {
+								category.moduleIndex = 0;
+							} else {
+								category.moduleIndex++;
+							}
+						}
 					} else {
-						if(!(module.name == "TabGUI"))
-							module.toggle();
+						if(currentTab >= Module.Category.values().length - 1) {
+							currentTab = 0;
+						} else {
+							currentTab++;
+						}
 					}
 					
-				} else {
-					expanded = true;
 				}
-			}
-			
-			if(code == Keyboard.KEY_LEFT) {
-				if(expanded && modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
-					modules.get(category.moduleIndex).expanded = false;
-				} else {
-					expanded = false;
+				
+				if(code == Keyboard.KEY_RIGHT) {
+					if(expanded) {
+						Module module = modules.get(category.moduleIndex);
+						
+						if(expanded && !modules.isEmpty() && !module.settings.isEmpty() && modules.get(category.moduleIndex).expanded) {
+							Setting setting = module.settings.get(module.settingIndex);
+							setting.focused = !setting.focused;
+							
+						} else {
+							if(!(module.name == "TabGUI"))
+								module.toggle();
+						}
+						
+					} else {
+						expanded = true;
+					}
 				}
-			}
-			
-			if(code == Keyboard.KEY_RETURN) {
-				if(expanded) {
-					Module module = modules.get(category.moduleIndex);
-					
-					if(module.settings.isEmpty())
-						return;
-					
-					module.expanded = !module.expanded;
+				
+				if(code == Keyboard.KEY_LEFT) {
+					if(expanded && modules.isEmpty() && modules.get(category.moduleIndex).expanded) {
+						modules.get(category.moduleIndex).expanded = false;
+					} else {
+						expanded = false;
+					}
+				}
+				
+				if(code == Keyboard.KEY_RETURN) {
+					if(expanded) {
+						Module module = modules.get(category.moduleIndex);
+						
+						if(module.settings.isEmpty())
+							return;
+						
+						module.expanded = !module.expanded;
+					}
 				}
 			}
 		}
