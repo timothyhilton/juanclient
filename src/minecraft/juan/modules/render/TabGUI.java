@@ -56,18 +56,21 @@ public class TabGUI extends Module {
 				List<Module> modules = Client.getModulesByCategory(category);
 				
 				count = 0;
+				float moduleBoxRight = 0;
+				float moduleBoxTop = 0;
 				for(Module m : modules) {
-					int moduleBoxRight = 0;
 					if(count == 0) {
 						
 						moduleBoxRight = 61 + fr.getStringWidth(m.name);
+						
 						// main module box
 						Gui.drawRect(54, 20, moduleBoxRight, 21 + 13 * modules.size() + 1, primaryColour);
 						
 						// selected module box
 						float moduleOffset = category.moduleIndex * 13;
-						Gui.drawRect(55, 21 + moduleOffset, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, secondaryColour);
-					}
+						moduleBoxTop = moduleOffset + 21;
+						Gui.drawRect(55, moduleBoxTop, 60 + fr.getStringWidth(m.name), 34 + moduleOffset, secondaryColour);
+					} 
 					
 					// module text
 					int offset = count * 13;
