@@ -34,7 +34,6 @@ public class Client {
 		modules.add(new TabGUI());
 		modules.add(new CopySession());
 		modules.add(new CPSCounter());
-		modules.add(new LegitMode());
 		modules.add(new BedwarsItemCounter());
 		modules.add(new HitDelayFix());
 		modules.add(new MouseDelayFix());
