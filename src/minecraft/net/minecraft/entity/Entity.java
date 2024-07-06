@@ -355,8 +355,8 @@ public abstract class Entity implements ICommandSender
      */
     protected void setRotation(float yaw, float pitch)
     {
-        this.rotationYaw = yaw % 360.0F;
-        this.rotationPitch = pitch % 360.0F;
+//        this.rotationYaw = yaw % 360.0F;
+//        this.rotationPitch = pitch % 360.0F;
     }
 
     /**

@@ -3,6 +3,8 @@ package net.minecraft.client.renderer;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 
+import juan.Client;
+import juan.events.listeners.EventRenderCamera;
 import juan.ui.MainMenu;
 
 import java.io.IOException;
@@ -781,13 +783,14 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             GlStateManager.translate(0.0F, 0.0F, -0.1F);
         }
-
         
-        float testPitch = 3f;
-        float testYaw = 2f;
+//        juan
+        EventRenderCamera event = new EventRenderCamera(entity.rotationYaw, entity.rotationPitch);
+        Client.onEvent(event);
+        
         if (!this.mc.gameSettings.debugCamEnable)
         {
-            GlStateManager.rotate(testPitch + (testPitch - testPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(event.pitch + (event.pitch - event.pitch) * partialTicks, 1.0F, 0.0F, 0.0F);
 
             if (entity instanceof EntityAnimal)
             {
@@ -796,7 +799,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else
             {
-                GlStateManager.rotate(testYaw + (testYaw - testYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(event.yaw + (event.yaw - event.yaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
             }
         }
 
