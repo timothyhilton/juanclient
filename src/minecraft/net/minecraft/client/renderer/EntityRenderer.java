@@ -782,9 +782,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
             GlStateManager.translate(0.0F, 0.0F, -0.1F);
         }
 
+        
+        float testPitch = 3f;
+        float testYaw = 2f;
         if (!this.mc.gameSettings.debugCamEnable)
         {
-            GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(testPitch + (testPitch - testPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
 
             if (entity instanceof EntityAnimal)
             {
@@ -793,7 +796,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else
             {
-                GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(testYaw + (testYaw - testYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
             }
         }
 
