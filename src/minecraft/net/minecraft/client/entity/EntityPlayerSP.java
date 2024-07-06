@@ -3,7 +3,7 @@ package net.minecraft.client.entity;
 import juan.Client;
 import juan.events.EventType;
 import juan.events.listeners.*;
-
+import juan.modules.render.FreeLook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -195,6 +195,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
     	EventUpdate e = new EventUpdate();
 		e.setType(EventType.PRE);
     	Client.onEvent(e);
+    	
+    	FreeLook freelook = (FreeLook) Client.getModuleByName("FreeLook");
+    	if (freelook.isEnabled()) {
+            this.rotationYaw = freelook.getCameraYaw();
+            this.rotationPitch = freelook.getCameraPitch();
+        }
     	
     	EventMotion event = new EventMotion(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
     	event.setType(EventType.PRE);
