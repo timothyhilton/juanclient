@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import juan.events.Event;
 import juan.events.listeners.EventUpdate;
 import juan.modules.Module;
+import net.minecraft.potion.Potion;
 
 public class Sprint extends Module {
 	
@@ -23,7 +24,7 @@ public class Sprint extends Module {
 	public void onEvent(Event e) {
 		if (e instanceof EventUpdate) {
 			if(e.isPre()) {
-				if(mc.thePlayer.moveForward > 0 && !mc.thePlayer.isUsingItem() && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.getFoodStats().getFoodLevel() > 6) {
+				if(mc.thePlayer.moveForward > 0 && !mc.thePlayer.isUsingItem() && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.getFoodStats().getFoodLevel() > 6 && mc.thePlayer.isPotionActive(Potion.blindness)) {
 					mc.thePlayer.setSprinting(true);
 				}
 			}
