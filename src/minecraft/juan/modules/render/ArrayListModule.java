@@ -19,12 +19,14 @@ import net.minecraft.client.renderer.GlStateManager;
 public class ArrayListModule extends Module {
 	
 	BooleanSetting compact = new BooleanSetting("Compact", false);
-	BooleanSetting noBackground = new BooleanSetting("NoBackground", false);
+	BooleanSetting background = new BooleanSetting("Background", true);
+	BooleanSetting edgeGap = new BooleanSetting("EdgeGap", false);
+	BooleanSetting spaced = new BooleanSetting("Spaced", false);
 	
 	public ArrayListModule() {
 		super("ArrayList", Keyboard.KEY_NONE, Category.RENDER, true);
 		toggled = true;
-		this.addSettings(compact, noBackground);
+		this.addSettings(compact, background, edgeGap, spaced);
 	}
 	
 	public void onEnable() {
@@ -47,13 +49,19 @@ public class ArrayListModule extends Module {
 			if(!m.toggled || m.name == "TabGUI")
 				continue;
 			
-			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6)) - (compact.enabled ? 2 : 0);
+			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
 			count++;
 			
-			if(!noBackground.enabled)
-				Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(m.name) - 8 + (compact.enabled ? 5 : 0), offset + (compact.enabled ? 2 : 0), sr.getScaledWidth(), 6 + fr.FONT_HEIGHT + offset - (compact.enabled ? 2 : 0), 0x90000000);
+			if(background.enabled)
+				Gui.drawRect(
+						sr.getScaledWidth() - fr.getStringWidth(m.name) - 8 + (compact.enabled ? 5 : 0) - (edgeGap.enabled ? 1 : 0), 
+						offset + (compact.enabled ? 2 : 0), 
+						sr.getScaledWidth() - (edgeGap.enabled ? 1 : 0), 
+						6 + fr.FONT_HEIGHT + offset - (compact.enabled ? 2 : 0), 
+						0x90000000
+				);
 			
-			fr.drawStringWithShadow(m.name, sr.getScaledWidth() - fr.getStringWidth(m.name) - 4 + (compact.enabled ? 3 : 0), 4 + offset, -1);
+			fr.drawStringWithShadow(m.name, sr.getScaledWidth() - fr.getStringWidth(m.name) - 4 + (compact.enabled ? 3 : 0) - (edgeGap.enabled ? 1 : 0), 4 + offset, -1);
 			
 		}
 	}
