@@ -17,10 +17,7 @@ public class HUD {
 	public Minecraft mc = Minecraft.getMinecraft();
 	
 	public void draw() {
-		ScaledResolution sr = new ScaledResolution(mc);
 		FontRenderer fr = mc.fontRendererObj;
-		
-		Client.modules.sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).name)).reversed());
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(4, 4, 0);
@@ -28,20 +25,6 @@ public class HUD {
 		GlStateManager.translate(-4, -4, 0);
 		fr.drawStringWithShadow(Client.name + " " + Client.version, 4, 4, -1);
 		GlStateManager.popMatrix();
-		
-		int count = 0;
-		
-		for(Module m : Client.modules) {
-			if(!m.toggled || m.name == "TabGUI")
-				continue;
-			
-			double offset = count * (fr.FONT_HEIGHT + 6);
-			
-			Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(m.name) - 8, offset, sr.getScaledWidth(), 6 + fr.FONT_HEIGHT + offset, 0x90000000);
-			fr.drawStringWithShadow(m.name, sr.getScaledWidth() - fr.getStringWidth(m.name) - 4, 4 + offset, -1);
-			
-			count++;
-		}
 		
 		Client.onEvent(new EventRenderGUI());
 	}

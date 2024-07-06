@@ -42,6 +42,7 @@ public class Client {
 		modules.add(new BedwarsItemCounter());
 		modules.add(new HitDelayFix());
 		modules.add(new MouseDelayFix());
+		modules.add(new ArrayListModule());
 	}
 	
 	public static void onEvent(Event e) {
