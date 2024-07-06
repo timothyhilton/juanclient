@@ -196,12 +196,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
 		e.setType(EventType.PRE);
     	Client.onEvent(e);
     	
-    	FreeLook freelook = (FreeLook) Client.getModuleByName("FreeLook");
-    	if (freelook.isEnabled()) {
-            this.rotationYaw = freelook.getCameraYaw();
-            this.rotationPitch = freelook.getCameraPitch();
-        }
-    	
     	EventMotion event = new EventMotion(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
     	event.setType(EventType.PRE);
     	Client.onEvent(event);
