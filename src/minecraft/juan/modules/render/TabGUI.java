@@ -35,8 +35,8 @@ public class TabGUI extends Module {
 			
 			int 
 				primaryColour = 0x90000000,
-				secondaryColour = 0x90000000,
-				focusedColour = 0x50ffffff;
+				secondaryColour = 0x30ffffff,
+				focusedColour = 0x80ffffff;
 			
 			// main box
 			Gui.drawRect(1, 20, 53, 74, primaryColour);
