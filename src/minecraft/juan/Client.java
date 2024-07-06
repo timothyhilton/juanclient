@@ -29,12 +29,8 @@ public class Client {
 		modules.add(new FPSCounter());
 		modules.add(new OldSwing());
 		
-		modules.add(new Fly());
 		modules.add(new Sprint());
-		modules.add(new BlocksMCFireball());
-		modules.add(new KillAura());
 		modules.add(new Fullbright());
-		modules.add(new NoFall());
 		modules.add(new TabGUI());
 		modules.add(new CopySession());
 		modules.add(new CPSCounter());
