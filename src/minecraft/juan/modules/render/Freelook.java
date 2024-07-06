@@ -3,7 +3,9 @@ package juan.modules.render;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import juan.events.Event;
+import juan.events.listeners.EventMotion;
 import juan.events.listeners.EventRenderCamera;
+import juan.events.listeners.EventRenderGUI;
 import juan.events.listeners.EventUpdate;
 import juan.modules.Module;
 import net.minecraft.util.MathHelper;
@@ -19,7 +21,7 @@ public class FreeLook extends Module {
     private long lastUpdateTime;
 
     public FreeLook() {
-        super("FreeLook", Keyboard.KEY_V, Category.MOVEMENT, true);
+        super("FreeLook", Keyboard.KEY_F, Category.MOVEMENT, true);
     }
 
     public void onEnable() {
@@ -47,7 +49,7 @@ public class FreeLook extends Module {
     }
 
     public void onEvent(Event e) {
-        if (e instanceof EventUpdate && e.isPre()) {
+        if (e instanceof EventRenderGUI) {
             mc.thePlayer.rotationYaw = originalYaw;
             mc.thePlayer.rotationPitch = originalPitch;
 
@@ -55,22 +57,23 @@ public class FreeLook extends Module {
             float deltaTime = (currentTime - lastUpdateTime) / 1000f;
             lastUpdateTime = currentTime;
 
-            float sensitivity = mc.gameSettings.mouseSensitivity * 4F + 0.2F;
-            float deltaYaw = Mouse.getDX() * sensitivity * 0.15F;
-            float deltaPitch = -Mouse.getDY() * sensitivity * 0.15F;
+            float sensitivity = mc.gameSettings.mouseSensitivity * 2f;
+            float deltaYaw = mc.mouseHelper.deltaX * sensitivity * 0.15F;
+            float deltaPitch = mc.mouseHelper.deltaY * sensitivity * 0.15F;
 
-            // Smooth the movement using delta time
-            cameraYaw += deltaYaw * (deltaTime * 60);  // Normalize to 60 FPS
-            cameraPitch += deltaPitch * (deltaTime * 60);
+            cameraYaw += deltaYaw * (deltaTime * mc.getDebugFPS()); 
+            cameraPitch += deltaPitch * (deltaTime * mc.getDebugFPS());
 
             cameraPitch = MathHelper.clamp_float(cameraPitch, -90.0F, 90.0F);
 
-            // Wrap yaw between 0 and 360 degrees
             cameraYaw = cameraYaw % 360;
             if (cameraYaw < 0) cameraYaw += 360;
         }
 
         if (e instanceof EventRenderCamera) {
+        	mc.thePlayer.rotationYaw = originalYaw;
+            mc.thePlayer.rotationPitch = originalPitch;
+            
             EventRenderCamera event = (EventRenderCamera) e;
             event.yaw = cameraYaw;
             event.pitch = cameraPitch;
