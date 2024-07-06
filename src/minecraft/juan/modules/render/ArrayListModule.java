@@ -49,7 +49,7 @@ public class ArrayListModule extends Module {
 			if(!m.toggled || m.name == "TabGUI")
 				continue;
 			
-			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
+			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6) + (spaced.enabled ? 1 : 0)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
 			count++;
 			
 			if(background.enabled)
