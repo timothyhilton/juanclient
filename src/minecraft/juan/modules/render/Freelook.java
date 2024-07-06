@@ -3,11 +3,13 @@ package juan.modules.render;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import juan.events.Event;
+import juan.events.listeners.EventKey;
 import juan.events.listeners.EventMotion;
 import juan.events.listeners.EventRenderCamera;
 import juan.events.listeners.EventRenderGUI;
 import juan.events.listeners.EventUpdate;
 import juan.modules.Module;
+import juan.settings.BooleanSetting;
 import net.minecraft.util.MathHelper;
 
 public class FreeLook extends Module {
@@ -19,9 +21,12 @@ public class FreeLook extends Module {
     private float cameraPitch;
 
     private long lastUpdateTime;
+    
+    public BooleanSetting autoDisable = new BooleanSetting("AutoDisable", true);
 
     public FreeLook() {
         super("FreeLook", Keyboard.KEY_F, Category.MOVEMENT, true);
+        this.addSettings(autoDisable);
     }
 
     public void onEnable() {
@@ -50,6 +55,10 @@ public class FreeLook extends Module {
 
     public void onEvent(Event e) {
         if (e instanceof EventRenderGUI) {
+        	if(autoDisable.enabled && !Keyboard.isKeyDown(Keyboard.KEY_F)) {
+            	this.toggle();
+            }
+        	
             mc.thePlayer.rotationYaw = originalYaw;
             mc.thePlayer.rotationPitch = originalPitch;
 
@@ -68,6 +77,7 @@ public class FreeLook extends Module {
 
             cameraYaw = cameraYaw % 360;
             if (cameraYaw < 0) cameraYaw += 360;
+            
         }
 
         if (e instanceof EventRenderCamera) {
