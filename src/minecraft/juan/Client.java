@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.input.Keyboard;
 
+import juan.command.CommandManager;
 import juan.events.Event;
 import juan.events.listeners.*;
 import juan.modules.Module;
@@ -15,12 +17,16 @@ import juan.modules.movement.*;
 import juan.modules.player.*;
 import juan.modules.render.*;
 import juan.ui.HUD;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.util.ChatComponentText;
 
 public class Client {
 
-	public static String name = "juan client", version = "b2.1.8";
+	public static String name = "juan client", version = "b2.2.0";
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
+	public static CommandManager commandManager = new CommandManager();
 
 	public static void startup() {
 		System.out.println("Starting " + name + " " + version);
@@ -42,6 +48,11 @@ public class Client {
 	}
 	
 	public static void onEvent(Event e) {
+		if(e instanceof EventChat) {
+			commandManager.handleChat((EventChat) e);
+		}
+		
+		
 		for(Module m : modules) {
 			if(!m.toggled)
 				continue;
@@ -51,6 +62,10 @@ public class Client {
 	
 	public static void keyPress(int key) {
 		Client.onEvent(new EventKey(key));
+		
+		if(key == Keyboard.KEY_PERIOD) {
+			Minecraft.getMinecraft().displayGuiScreen(new GuiChat("."));
+		}
 		
 		for(Module m : modules) {
 			if(m.getKey() == key) {
