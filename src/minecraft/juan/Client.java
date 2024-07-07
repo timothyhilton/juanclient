@@ -27,6 +27,7 @@ public class Client {
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
 	public static CommandManager commandManager = new CommandManager();
+	public static Theme theme;
 
 	public static void startup() {
 		System.out.println("Starting " + name + " " + version);
@@ -46,6 +47,8 @@ public class Client {
 		modules.add(new ArrayListModule());
 		modules.add(new FreeLook());
 		modules.add(new Theme());
+		
+		theme = (Theme) Client.getModuleByName("Theme");
 	}
 	
 	public static void onEvent(Event e) {

@@ -5,6 +5,7 @@ import java.util.Comparator;
 
 import juan.Client;
 import juan.modules.Module;
+import juan.modules.render.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -23,7 +24,7 @@ public class HUD {
 		GlStateManager.translate(4, 4, 0);
 		GlStateManager.scale(1.5, 1.5, 1);
 		GlStateManager.translate(-4, -4, 0);
-		fr.drawStringWithShadow(Client.name + " " + Client.version, 4, 4, -1);
+		fr.drawStringWithShadow(Client.name + " " + Client.version, 4, 4, ((Theme) Client.getModuleByName("Theme")).getColour(0));
 		GlStateManager.popMatrix();
 		
 		Client.onEvent(new EventRenderGUI());
