@@ -27,13 +27,12 @@ public class TabGUI extends Module {
 	public TabGUI() {
 		super("TabGUI", Keyboard.KEY_NONE, Category.RENDER, true);
 		toggled = true;
-		this.addSettings(OldNavigation);
+		this.addSettings(OldNavigation, ignoreTheme);
 	}
 	
 	public void onEvent(Event e) {
 		if(e instanceof EventRenderGUI) {
 			FontRenderer fr = mc.fontRendererObj;
-			Theme theme = (Theme) Client.getModuleByName("Theme");
 			
 			int 
 				primaryColour = 0x90000000,
@@ -51,7 +50,7 @@ public class TabGUI extends Module {
 			int count = 0;
 			for(Category c : Module.Category.values()) {
 				int offset = count * 13;
-				fr.drawStringWithShadow(c.name, 4, 24 + offset, -1);
+				fr.drawStringWithShadow(c.name, 4, 24 + offset, ignoreTheme.isEnabled() ? -1 : Client.theme.getColour(count + 1));
 				
 				count++;
 			}
@@ -79,7 +78,7 @@ public class TabGUI extends Module {
 					
 					// module text
 					int offset = count * 13;
-					fr.drawStringWithShadow(m.name, 4 + 54, 24 + offset, -1);
+					fr.drawStringWithShadow(m.name, 4 + 54, 24 + offset, ignoreTheme.isEnabled() ? -1 : Client.theme.getColour(count + 1));
 					
 					// module settings
 					if(count == category.moduleIndex && m.expanded) {
@@ -118,15 +117,15 @@ public class TabGUI extends Module {
 					    	// setting text
 					    	if(setting instanceof BooleanSetting) {
 					    		BooleanSetting bool = (BooleanSetting) setting;
-					    		fr.drawStringWithShadow(setting.name + ": " + (bool.enabled ? "enabled" : "disabled"), moduleBoxRight + 5, 24 + i * 13, -1);
+					    		fr.drawStringWithShadow(setting.name + ": " + (bool.enabled ? "enabled" : "disabled"), moduleBoxRight + 5, 24 + i * 13, ignoreTheme.isEnabled() ? -1 : Client.theme.getColour(i + 1));
 					    	}
 					    	if(setting instanceof NumberSetting) {
 					    		NumberSetting number = (NumberSetting) setting;
-					    		fr.drawStringWithShadow(setting.name + ": " + number.getValue(), moduleBoxRight + 5, 24 + i * 13, -1);
+					    		fr.drawStringWithShadow(setting.name + ": " + number.getValue(), moduleBoxRight + 5, 24 + i * 13, ignoreTheme.isEnabled() ? -1 : Client.theme.getColour(i + 1));
 					    	}
 					    	if(setting instanceof ModeSetting) {
 					    		ModeSetting mode = (ModeSetting) setting;
-					    		fr.drawStringWithShadow(setting.name + ": " + mode.getMode(), moduleBoxRight + 5, 24 + i * 13, -1);
+					    		fr.drawStringWithShadow(setting.name + ": " + mode.getMode(), moduleBoxRight + 5, 24 + i * 13, ignoreTheme.isEnabled() ? -1 : Client.theme.getColour(i + 1));
 					    	}
 					    	
 					    	i++;

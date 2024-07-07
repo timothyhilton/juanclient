@@ -28,7 +28,7 @@ public class ArrayListModule extends Module {
 	public ArrayListModule() {
 		super("ArrayList", Keyboard.KEY_NONE, Category.RENDER, true);
 		toggled = true;
-		this.addSettings(compact, background, edgeGap, spaced);
+		this.addSettings(compact, background, edgeGap, spaced, ignoreTheme);
 	}
 	
 	public void onEnable() {
@@ -54,7 +54,7 @@ public class ArrayListModule extends Module {
 			
 			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6) + (spaced.enabled ? 1 : 0)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
 
-			int colour = ((Theme) Client.getModuleByName("Theme")).getColour(count);
+			int colour = Client.theme.getColour(count);
 			if(ignoreTheme.isEnabled())
 				colour = -1;
 	        count++;

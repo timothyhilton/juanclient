@@ -50,7 +50,7 @@ public class Theme extends Module {
 				hue += index * 0.05f;
 				hue %= 1.0f;
 				
-				return(Color.HSBtoRGB(hue, 0.5f, 1));
+				return(Color.HSBtoRGB(hue, 0.6f, 1));
 			
 			
 				
