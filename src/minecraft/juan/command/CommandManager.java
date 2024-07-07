@@ -12,11 +12,8 @@ public class CommandManager {
 	public String prefix = ".";
 	
 	public CommandManager() {
-		setup();
-	}
-	
-	public void setup() {
 		commands.add(new Toggle());
+		commands.add(new Help());
 	}
 	
 	public void handleChat(EventChat event) {
@@ -32,10 +29,17 @@ public class CommandManager {
 		
 		String commandName = message.split(" ")[0];
 		
+		boolean foundCommand = false;
 		for(Command c : commands) {
-			if(c.aliases.contains(commandName)) {
+			if(c.aliases.contains(commandName) || c.name.equalsIgnoreCase(commandName)) {
 				c.onCommand(Arrays.copyOfRange(message.split(" "), 1, message.split(" ").length), message);
+				foundCommand = true;
+				break;
 			}
+		}
+		
+		if(!foundCommand) {
+			Command.addChatMessage("can't find command '" + commandName + "' - try .help");
 		}
 		
 		event.setCancelled(true);

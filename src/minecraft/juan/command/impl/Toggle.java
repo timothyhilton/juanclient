@@ -7,11 +7,10 @@ import juan.modules.Module;
 public class Toggle extends Command {
 
 	public Toggle() {
-		super("Toggle", "toggles a module by name", "toggle (name)", "t");
+		super("toggle", "toggles a module by name", "toggle (name)", "t");
 	}
 	
 	public void onCommand(String[] args, String command) {
-		System.out.println("brotha");
 		if(args.length <= 0)
 			return;
 		

@@ -93,4 +93,7 @@ public class Client {
 		return null;
 	}
 	
+	public static CommandManager getCommandManager() {
+		return commandManager;
+	}
 }
