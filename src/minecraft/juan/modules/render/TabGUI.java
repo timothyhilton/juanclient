@@ -22,6 +22,7 @@ public class TabGUI extends Module {
 	public boolean expanded;
 	
 	public BooleanSetting OldNavigation = new BooleanSetting("OldNavigation", false);
+	public BooleanSetting ignoreTheme = new BooleanSetting("Ignore Theme", false);
 	
 	public TabGUI() {
 		super("TabGUI", Keyboard.KEY_NONE, Category.RENDER, true);
@@ -32,6 +33,7 @@ public class TabGUI extends Module {
 	public void onEvent(Event e) {
 		if(e instanceof EventRenderGUI) {
 			FontRenderer fr = mc.fontRendererObj;
+			Theme theme = (Theme) Client.getModuleByName("Theme");
 			
 			int 
 				primaryColour = 0x90000000,

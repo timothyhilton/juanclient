@@ -23,6 +23,7 @@ public class ArrayListModule extends Module {
 	BooleanSetting background = new BooleanSetting("Background", true);
 	BooleanSetting edgeGap = new BooleanSetting("EdgeGap", false);
 	BooleanSetting spaced = new BooleanSetting("Spaced", false);
+	BooleanSetting ignoreTheme = new BooleanSetting("Ignore Theme", false);
 	
 	public ArrayListModule() {
 		super("ArrayList", Keyboard.KEY_NONE, Category.RENDER, true);
@@ -43,8 +44,6 @@ public class ArrayListModule extends Module {
 		ScaledResolution sr = new ScaledResolution(mc);
 		FontRenderer fr = mc.fontRendererObj;
 		
-		float hue;
-		int colour;
 		
 		Client.modules.sort(Comparator.comparingInt(m -> fr.getStringWidth(((Module)m).name)).reversed());
 		
@@ -55,12 +54,9 @@ public class ArrayListModule extends Module {
 			
 			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6) + (spaced.enabled ? 1 : 0)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
 
-	        hue = (System.currentTimeMillis() % 4000) / 4000f;
-	        hue += count * 0.05f;
-	        hue %= 1.0f;
-	        
-	        colour = Color.HSBtoRGB(hue, 0.5f, 1);
-
+			int colour = ((Theme) Client.getModuleByName("Theme")).getColour(count);
+			if(ignoreTheme.isEnabled())
+				colour = -1;
 	        count++;
 			
 			if(background.enabled)
