@@ -1,4 +1,5 @@
 package juan.modules.render;
+import java.awt.Color;
 import java.util.Comparator;
 
 import org.lwjgl.input.Keyboard;
@@ -42,6 +43,9 @@ public class ArrayListModule extends Module {
 		ScaledResolution sr = new ScaledResolution(mc);
 		FontRenderer fr = mc.fontRendererObj;
 		
+		float hue;
+		int colour;
+		
 		Client.modules.sort(Comparator.comparingInt(m -> fr.getStringWidth(((Module)m).name)).reversed());
 		
 		int count = 0;
@@ -50,7 +54,14 @@ public class ArrayListModule extends Module {
 				continue;
 			
 			double offset = count * (fr.FONT_HEIGHT + (compact.enabled ? 2 : 6) + (spaced.enabled ? 1 : 0)) - (compact.enabled ? 2 : 0) + (edgeGap.enabled ? 1 : 0);
-			count++;
+
+	        hue = (System.currentTimeMillis() % 4000) / 4000f;
+	        hue += count * 0.05f;
+	        hue %= 1.0f;
+	        
+	        colour = Color.HSBtoRGB(hue, 1, 1);
+
+	        count++;
 			
 			if(background.enabled)
 				Gui.drawRect(
@@ -61,7 +72,7 @@ public class ArrayListModule extends Module {
 						0x90000000
 				);
 			
-			fr.drawStringWithShadow(m.name, sr.getScaledWidth() - fr.getStringWidth(m.name) - 4 + (compact.enabled ? 3 : 0) - (edgeGap.enabled ? 1 : 0), 4 + offset, -1);
+			fr.drawStringWithShadow(m.name, sr.getScaledWidth() - fr.getStringWidth(m.name) - 4 + (compact.enabled ? 3 : 0) - (edgeGap.enabled ? 1 : 0), 4 + offset, colour);
 			
 		}
 	}
