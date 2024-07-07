@@ -45,6 +45,7 @@ public class Client {
 		modules.add(new MouseDelayFix());
 		modules.add(new ArrayListModule());
 		modules.add(new FreeLook());
+		modules.add(new Theme());
 	}
 	
 	public static void onEvent(Event e) {
