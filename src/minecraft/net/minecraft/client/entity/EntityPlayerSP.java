@@ -310,7 +310,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
-        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+    	// juan
+    	EventChat event = new EventChat(message);
+    	
+    	Client.onEvent(event);
+    	
+    	if(event.isCancelled()) {
+    		return;
+    	}
+    	
+        this.sendQueue.addToSendQueue(new C01PacketChatMessage(event.getMessage()));
     }
 
     /**
