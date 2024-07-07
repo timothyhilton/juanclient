@@ -59,7 +59,7 @@ public class ArrayListModule extends Module {
 	        hue += count * 0.05f;
 	        hue %= 1.0f;
 	        
-	        colour = Color.HSBtoRGB(hue, 1, 1);
+	        colour = Color.HSBtoRGB(hue, 0.5f, 1);
 
 	        count++;
 			
