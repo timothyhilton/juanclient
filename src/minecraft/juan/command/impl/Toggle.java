@@ -7,7 +7,7 @@ import juan.modules.Module;
 public class Toggle extends Command {
 
 	public Toggle() {
-		super("toggle", "toggles a module by name", "toggle (name)", "t");
+		super("toggle", "toggles a module by name", "toggle <module>", "t");
 	}
 	
 	public void onCommand(String[] args, String command) {

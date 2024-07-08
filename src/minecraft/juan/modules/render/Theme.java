@@ -69,4 +69,8 @@ public class Theme extends Module {
 	    }
 	    return -1;
 	}
+	
+	public List<String> getThemes() {
+		return theme.getModes();
+	}
 }

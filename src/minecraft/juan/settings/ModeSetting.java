@@ -37,4 +37,8 @@ public class ModeSetting extends Setting {
 			}
 		}
 	}
+	
+	public List<String> getModes() {
+		return modes;
+	}
 }
