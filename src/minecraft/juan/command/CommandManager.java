@@ -14,6 +14,7 @@ public class CommandManager {
 	public CommandManager() {
 		commands.add(new Toggle());
 		commands.add(new Help());
+		commands.add(new Theme());
 	}
 	
 	public void handleChat(EventChat event) {
