@@ -23,7 +23,7 @@ import net.minecraft.util.ChatComponentText;
 
 public class Client {
 
-	public static String name = "juan client", version = "b2.2.3";
+	public static String name = "juan client", version = "b2.2.4";
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
 	public static CommandManager commandManager = new CommandManager();
@@ -39,7 +39,6 @@ public class Client {
 		modules.add(new Sprint());
 		modules.add(new Fullbright());
 		modules.add(new TabGUI());
-		modules.add(new CopySession());
 		modules.add(new CPSCounter());
 		modules.add(new BedwarsItemCounter());
 		modules.add(new HitDelayFix());
@@ -47,6 +46,7 @@ public class Client {
 		modules.add(new ArrayListModule());
 		modules.add(new FreeLook());
 		modules.add(new Theme());
+		modules.add(new ChinaHat());
 		
 		theme = (Theme) Client.getModuleByName("Theme");
 	}

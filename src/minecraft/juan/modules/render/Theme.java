@@ -17,7 +17,7 @@ import net.minecraft.client.gui.Gui;
 
 public class Theme extends Module {
     
-    public ModeSetting theme = new ModeSetting("theme", "rainbow", "rainbow", "unsaturated rainbow", "white", "green-blue gradient", "pink-purple-aqua");
+    public ModeSetting theme = new ModeSetting("theme", "pink-purple-aqua", "rainbow", "unsaturated rainbow", "white", "green-blue gradient", "pink-purple-aqua");
     public BooleanSetting includeBadge = new BooleanSetting("include badge", false);
     public NumberSetting speed = new NumberSetting("speed", 1, 0, 4, 0.2);
     public NumberSetting smoothness = new NumberSetting("smoothness", 1, 0, 2, 0.1);
