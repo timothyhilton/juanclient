@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
+import juan.events.listeners.EventRender3D;
 import com.google.gson.JsonSyntaxException;
 
 import juan.Client;
@@ -1554,6 +1555,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
 
             renderglobal.renderEntities(entity, frustum, partialTicks);
+            Client.onEvent(new EventRender3D(partialTicks));
 
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
