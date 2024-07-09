@@ -44,7 +44,6 @@ public class ArrayListModule extends Module {
 		ScaledResolution sr = new ScaledResolution(mc);
 		FontRenderer fr = mc.fontRendererObj;
 		
-		
 		Client.modules.sort(Comparator.comparingInt(m -> fr.getStringWidth(((Module)m).name)).reversed());
 		
 		int count = 0;
