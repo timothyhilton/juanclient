@@ -62,6 +62,10 @@ public class Theme extends Module {
         return theme.getModes();
     }
     
+    public ModeSetting getThemeSetting() {
+    	return theme;
+    }
+    
     private int getSmoothedColor(float[] hues, float timeAdjust, int index) {
         int numColors = hues.length;
         int smoothnessNormalisation = 1 * hues.length;

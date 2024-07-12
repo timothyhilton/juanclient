@@ -41,4 +41,11 @@ public class ModeSetting extends Setting {
 	public List<String> getModes() {
 		return modes;
 	}
+	
+	public void setMode(String mode) {
+		if(modes.contains(mode))
+			index = modes.indexOf(mode);
+		else
+			System.out.println("mode didn't exist. this shouldn't happen!");
+	}
 }

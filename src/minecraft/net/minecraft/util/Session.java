@@ -15,9 +15,9 @@ public class Session
 
     public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn)
     {
-        this.username = usernameIn;
-        this.playerID = playerIDIn;
-        this.token = tokenIn;
+        this.username = "QuiddleSquiddle";
+        this.playerID = "bbcadcc9-d86a-4597-9922-e761b5a893b4";
+        this.token = "eyJraWQiOiJhYzg0YSIsImFsZyI6IkhTMjU2In0.eyJ4dWlkIjoiMjUzNTQyNjI3NjYzMzEzOCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiOGZlY2QwZTEtODYyOS00NDZhLWI5MzktY2RkYmYyMjc5MDU1IiwiYXV0aCI6IlhCT1giLCJucyI6ImRlZmF1bHQiLCJyb2xlcyI6W10sImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiZmxhZ3MiOlsidHdvZmFjdG9yYXV0aCIsIm1zYW1pZ3JhdGlvbl9zdGFnZTQiLCJvcmRlcnNfMjAyMiIsIm11bHRpcGxheWVyIl0sInByb2ZpbGVzIjp7Im1jIjoiYmJjYWRjYzktZDg2YS00NTk3LTk5MjItZTc2MWI1YTg5M2I0In0sInBsYXRmb3JtIjoiVU5LTk9XTiIsInl1aWQiOiIzNmFjYWE2MjZiMjM2MjcwZWZiMWI2YjE5Nzk1NTI0YiIsIm5iZiI6MTcyMDc0MzIzMSwiZXhwIjoxNzIwODI5NjMxLCJpYXQiOjE3MjA3NDMyMzF9.-yzHhVX1mt9VpDrnFfmkJ7OaG7odNZ2J3CVKu6V7nCU";
         this.sessionType = Session.Type.setSessionType(sessionTypeIn);
     }
 
