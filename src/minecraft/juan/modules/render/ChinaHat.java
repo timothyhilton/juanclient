@@ -20,16 +20,17 @@ public class ChinaHat extends Module {
     public NumberSetting height = new NumberSetting("height", 0.3, 0.1, 1.0, 0.1);
     public NumberSetting opacity = new NumberSetting("opacity", 0.7, 0.1, 1.0, 0.1);
     public NumberSetting segments = new NumberSetting("segments", 20, 3, 80, 4);
+    public BooleanSetting renderInFirstPerson = new BooleanSetting("firstperson", false);
 
     public ChinaHat() {
         super("ChinaHat", Keyboard.KEY_NONE, Category.RENDER, true);
-        this.addSettings(radius, height, segments, opacity);
+        this.addSettings(radius, height, segments, opacity, renderInFirstPerson);
     }
 
     public void onEvent(Event e) {
-        if (e instanceof EventRender3D) {
-            renderChinaHat(((EventRender3D) e).getPartialTicks());
-        }
+        if (e instanceof EventRender3D)
+        	if(renderInFirstPerson.isEnabled() || !(mc.gameSettings.thirdPersonView == 0))
+        		renderChinaHat(((EventRender3D) e).getPartialTicks());
     }
 
     private void renderChinaHat(float partialTicks) {
