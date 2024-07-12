@@ -1,6 +1,8 @@
 package juan.modules.render;
 
 import org.lwjgl.input.Keyboard;
+
+import juan.Client;
 import juan.events.Event;
 import juan.events.listeners.EventRender3D;
 import juan.modules.Module;
@@ -16,16 +18,16 @@ public class ChinaHat extends Module {
 
     public NumberSetting radius = new NumberSetting("radius", 0.7, 0.1, 2.0, 0.1);
     public NumberSetting height = new NumberSetting("height", 0.3, 0.1, 1.0, 0.1);
-    public NumberSetting segments = new NumberSetting("segments", 20, 3, 40, 1);
+    public NumberSetting opacity = new NumberSetting("opacity", 0.7, 0.1, 1.0, 0.1);
+    public NumberSetting segments = new NumberSetting("segments", 20, 3, 80, 4);
 
     public ChinaHat() {
         super("ChinaHat", Keyboard.KEY_NONE, Category.RENDER, true);
-        this.addSettings(radius, height, segments);
+        this.addSettings(radius, height, segments, opacity);
     }
 
     public void onEvent(Event e) {
         if (e instanceof EventRender3D) {
-        	System.out.println("yo");
             renderChinaHat(((EventRender3D) e).getPartialTicks());
         }
     }
@@ -58,14 +60,19 @@ public class ChinaHat extends Module {
 
         // Center point
         worldrenderer.pos(0, height, 0).color(255, 255, 255, 100).endVertex();
-
         for (int i = 0; i <= segments; i++) {
+            int colour = Client.theme.getColour(i);
+
+            int r = (colour >> 16) & 0xFF;
+            int g = (colour >> 8) & 0xFF;
+            int b = colour & 0xFF;
+
             double angle = (Math.PI * 2 * i / segments);
             worldrenderer.pos(
                 Math.cos(angle) * radius,
                 0,
                 Math.sin(angle) * radius
-            ).color(255, 255, 255, 0.5f).endVertex();
+            ).color(r / 255f, g / 255f, b / 255f, (float) opacity.getValue()).endVertex();
         }
 
         Tessellator.getInstance().draw();
