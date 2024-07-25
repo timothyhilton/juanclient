@@ -22,6 +22,7 @@
 /jars/screenshots
 /jars/servers.dat
 
-/eclipse/.metdata/.mylyn/*
+/eclipse/.metadata/.mylyn/*
 /eclipse/.metadata/.lock
 /eclipse/.metadata/.log
+/eclipse/Client/bin/*
