@@ -23,7 +23,7 @@ import net.minecraft.util.ChatComponentText;
 
 public class Client {
 
-	public static String name = "juan client", version = "b2.2.4";
+	public static String name = "juan client", version = "b2.2.6";
 	public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 	public static HUD hud = new HUD();
 	public static CommandManager commandManager = new CommandManager();
