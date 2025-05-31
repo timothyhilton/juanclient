@@ -26,3 +26,5 @@
 /eclipse/.metadata/.lock
 /eclipse/.metadata/.log
 /eclipse/Client/bin/*
+/src/minecraft/net/minecraft/util/Session.java
+eclipse/Client/bin/*
